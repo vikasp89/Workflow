@@ -12,6 +12,7 @@
 <%@page import="java.math.MathContext"%>
 <%@page import="java.text.DecimalFormatSymbols"%>
 <%@page import="com.vo.Newcase"%>
+<%@page import="com.vo.DoctorListVo"%>
 <html lang="en">
 
 <head>
@@ -738,8 +739,18 @@ label {
 													<label for="Clinic Doctor " class="form-label">
 														Doctor Name</label>
 													<div class="">
-														<input type="text" name="CDoctor" id="CDoctor"
-															placeholder="Enter Doctor Name" class="form-control">
+<!-- 														<input type="text" name="CDoctor" id="CDoctor" placeholder="Enter Doctor Name" class="form-control">
+ -->														<select class="form-control" id="CDoctor" name="CDoctor">
+ 																<option value="">Select a Doctor</option>
+															<%
+														List<DoctorListVo> doctorList = (ArrayList<DoctorListVo>) session.getAttribute("doctorList");
+															
+															//System.out.println("addCaseDetails doctorList : "+doctorList.size());
+															for (DoctorListVo dlv : doctorList) {%>
+																<option value="<%=dlv.getUser_id()%>"><%=dlv.getFullName()%></option>
+															<% }%>	
+															</select>
+													
 													</div>
 												</div>
 											</div>
@@ -755,8 +766,7 @@ label {
 													<label for="Clinic Doctor " class="form-label">
 														Patient Email</label>
 													<div class="">
-														
-																			<input type="email"  class="form-control" name="patient_email" id="patient_email" placeholder="Enter Patient Email"  class="form-control"  >
+														<input type="email"  class="form-control" name="patient_email" id="patient_email" placeholder="Enter Patient Email"  class="form-control"  >
 															
 													</div>
 												</div>

@@ -159,7 +159,7 @@ font-size:1.2rem;
      for (Map.Entry<String,String> entry : linkedHashMap2.entrySet())	
        {  
         	//returns keys and values respectively  
-        	System.out.println("Item: " + entry.getKey() + ", Price: " + entry.getValue());  
+        	//System.out.println("Item: " + entry.getKey() + ", Price: " + entry.getValue());  
            %>
      <tr>
   <td><span><%=entry.getKey()%> </span></td>          

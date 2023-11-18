@@ -1,5 +1,6 @@
 import com.security.AES256;
 import com.security.Base64Decoder;
+import com.vo.DoctorListVo;
 import com.workflow.connection.LoginDAO;
 import java.io.FileReader;
 import java.io.IOException;
@@ -50,17 +51,18 @@ public class login extends HttpServlet {
         System.out.println(e1);
       } 
       String aes256 = AES256.encrypt(passDecoder64);
-      AES256.encrypt(passDecoder64);
-      
-      System.out.println("shanti============ "+AES256.decrypt("u+q1gRViCzlVA/uLGFdsEA=="));
-      
+      AES256.encrypt(passDecoder64);      
       if (LoginDAO.validate(userid, aes256)) {
         String profile = "";
         String initiationFlag = "";
         String sHold = "";
-        
+        String crmName = "";
         try {
+        	crmName = LoginDAO.getCRM(userid);
+        	
+          System.out.println("Login java CrmName "+crmName);
           profile = LoginDAO.checkProfile(userid);
+       
           String[] profiles = profile.split("~");
           for (int i16 = 0; i16 < profiles.length; i16++);
           profile = profiles[0];
@@ -71,6 +73,7 @@ public class login extends HttpServlet {
         } catch (SQLException e) {
           System.out.println("loginpage " + e);
         } 
+        session.setAttribute("crm_Name", crmName);
         session.setAttribute("profile", profile);
         session.setAttribute("userid", userid);
         System.out.println("login userid: "+userid);
@@ -302,7 +305,10 @@ public class login extends HttpServlet {
           Dispatch_ruleslist.add(a);
           b20++;
         } 
+        List<DoctorListVo> doctorList =  LoginDAO.getDoctorList();;
         session.setAttribute("Dispatch_ruleslist", Dispatch_ruleslist);
+        session.setAttribute("doctorList", doctorList);
+        
       } else {
         out.println("error");
       } 

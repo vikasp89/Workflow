@@ -3,6 +3,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
+<%@page import="com.vo.DoctorListVo"%>
 
 
 <%
@@ -52,6 +53,8 @@ if (session.getAttribute("userid") == null || session.getAttribute("userid").equ
 
 
  <script src="${pageContext.request.contextPath}/JavaScript/jquery.min.js"></script>
+ 
+
 <style>
 .tooltip {
   position: relative;
@@ -514,7 +517,10 @@ if(bclinic!=null){
 if(badd!=null){
 	buyerAddress=badd.split(delimiters);
 }
+
+
 %>
+
 				<% 
 				     Connection cono = null;
 					 PreparedStatement pstmt0 = null;
@@ -1217,8 +1223,21 @@ if(badd!=null){
 				
 				</div>
 				<div class="col-lg-6" style="padding-left:10px; padding-right:10px;">
-				<input type="text" name="c_doctor"  id="c_doctor" placeholder="Enter Doctor Name" value="<%=c_doctor%>"  class="form-control cadbsForm"  >
-				</div>
+				<input type="text" id="doctorNameSelect"value="<%=c_doctor%>">
+<%-- 				<input type="text" name="c_doctor"  id="c_doctor" placeholder="Enter Doctor Name" value="<%=c_doctor%>"  class="form-control cadbsForm"  >
+ --%>				<select class="form-control" id="c_doctor" name="c_doctor">
+					
+					<option value="">Select an option</option>
+					<%List<DoctorListVo> doctorList = (ArrayList<DoctorListVo>) session.getAttribute("doctorList");
+						System.out.println("EditCaseDetails doctorList : "+doctorList.size());
+						for (DoctorListVo dlv : doctorList) {
+						if(dlv.getUser_id().equals(c_doctor)) %>
+						
+						   <option value="<%= dlv.getUser_id()%>"><%=dlv.getFullName() %></option>
+							
+							<%}%>	
+					</select>
+				 </div>
 				<div class="col-lg-2" ></div>
 			   </div>
 			   

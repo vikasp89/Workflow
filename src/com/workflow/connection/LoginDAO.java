@@ -1,10 +1,12 @@
 package com.workflow.connection;
 
 import com.vo.AccountVo;
+import com.vo.DoctorListVo;
 import com.vo.DraftVo;
 import com.vo.ImagesVo;
 import com.vo.Newcase1;
 import com.vo.PendingVO;
+import com.vo.PlanningVO;
 import com.vo.ProfileVO;
 import com.vo.StageMasterVO;
 import com.vo.ViewVO;
@@ -22,6 +24,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -75,44 +78,48 @@ public class LoginDAO {
     String sql = "select starter_case_stage from cc_crm where case_id='" + cid + "' ";
     String resultdata = "";
     try {
+      System.out.println("try...");
       con = getConnectionDetails();
       pstmt = con.prepareStatement(sql);
       ResultSet rs = pstmt.executeQuery();
-      if (rs.next())
-        resultdata = rs.getString("starter_case_stage"); 
+      System.out.println("rs=>" + rs);
+      if (rs.next()) {
+        resultdata = rs.getString("starter_case_stage");
+        System.out.println("resultdata: " + resultdata);
+      } 
     } catch (Exception e) {
-      e.printStackTrace();
+      System.out.println("throw starstaus => " + e.getMessage());
     } 
     return resultdata;
   }
   
   public static Connection getConnectionDetails() throws ClassNotFoundException, SQLException {
-    Connection con = null;
-    try {
-      Class.forName("com.mysql.jdbc.Driver");
-      //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/wisealign_workflow1?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "wisealign_workflow", "Render@323#");
-      con = DriverManager.getConnection("jdbc:mysql://localhost:3306/wisealign_workflow?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "root", "admin");
-      System.out.println("Connection Successful");
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("Error in DB Connection \n" + e);
-    } 
-    return con;
-  }
-  
-  public static Connection getDigiConnectionDetails() throws ClassNotFoundException, SQLException {
-	  Connection con = null;
+	    Connection con = null;
 	    try {
 	      Class.forName("com.mysql.jdbc.Driver");
 	      //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/wisealign_workflow1?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "wisealign_workflow", "Render@323#");
-	      con = DriverManager.getConnection("jdbc:mysql://localhost:3306/watts_digiplan?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "root", "admin");
+	      con = DriverManager.getConnection("jdbc:mysql://localhost:3307/wisealign_workflow?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "root", "admin");
 	      System.out.println("Connection Successful");
 	    } catch (Exception e) {
 	      e.printStackTrace();
 	      System.out.println("Error in DB Connection \n" + e);
 	    } 
 	    return con;
-  }
+	  }
+	  
+	  public static Connection getDigiConnectionDetails() throws ClassNotFoundException, SQLException {
+		  Connection con = null;
+		    try {
+		      Class.forName("com.mysql.jdbc.Driver");
+		      //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/wisealign_workflow1?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "wisealign_workflow", "Render@323#");
+		      con = DriverManager.getConnection("jdbc:mysql://localhost:3307/watts_digiplan?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "root", "admin");
+		      System.out.println("Connection Successful");
+		    } catch (Exception e) {
+		      e.printStackTrace();
+		      System.out.println("Error in DB Connection \n" + e);
+		    } 
+		    return con;
+	  }
   
   public static boolean validate(String name, String pass) {
     boolean status = false;
@@ -326,9 +333,10 @@ public class LoginDAO {
     ResultSet rs = null;
     String sInitiation = null;
     String shold = null;
+    String crm_Name = null;
     try {
       con = getConnectionDetails();
-      String query = "select a.PROFILE_ID,b.Initiation,b.hold from user_mstr a,profile_master b where a.PROFILE_ID=b.PROFILE_ID  and UPPER(a.User_id)='<USERID>'";
+      String query = "select a.PROFILE_ID,b.Initiation,b.hold,a.crm_Name from user_mstr a,profile_master b where a.PROFILE_ID=b.PROFILE_ID  and UPPER(a.User_id)='<USERID>'";
       query = query.replace("<USERID>", userID.toUpperCase());
       ps = con.prepareStatement(query);
       rs = ps.executeQuery();
@@ -336,6 +344,7 @@ public class LoginDAO {
         profile = rs.getString("PROFILE_ID");
         sInitiation = rs.getString("Initiation");
         shold = rs.getString("hold");
+        crm_Name = rs.getString("crm_Name");
       } 
     } catch (Exception e) {
       LOGGER.info("Error At UnHoldCaseValue=" + e.getMessage());
@@ -364,7 +373,7 @@ public class LoginDAO {
     } 
     return 
       
-      String.valueOf(profile) + "~" + sInitiation + "~" + shold;
+      String.valueOf(String.valueOf(profile)) + "~" + sInitiation + "~" + shold + "~" + crm_Name;
   }
   
   public static String getStages(String userID) throws ClassNotFoundException, SQLException {
@@ -382,7 +391,7 @@ public class LoginDAO {
       rs = ps.executeQuery();
       while (rs.next()) {
         stageCode = rs.getString("stage_code");
-        stageCodeval = String.valueOf(stageCodeval) + "~" + stageCode;
+        stageCodeval = String.valueOf(String.valueOf(stageCodeval)) + "~" + stageCode;
       } 
       stageCodeval = stageCodeval.substring(1, stageCodeval.length());
     } catch (Exception e) {
@@ -481,7 +490,7 @@ public class LoginDAO {
     } 
     return 
       
-      String.valueOf(updateRoutingFlag) + "~" + cancelRoutingFlag;
+      String.valueOf(String.valueOf(updateRoutingFlag)) + "~" + cancelRoutingFlag;
   }
   
   public static List<StageMasterVO> getStageMaster() throws ClassNotFoundException, SQLException {
@@ -822,7 +831,7 @@ public class LoginDAO {
         pstmt = con.prepareStatement(" update CC_CRM set case_stage='REJ' where case_id='" + caseid + "' ");
         int rowaffected = pstmt.executeUpdate();
         if (rowaffected > 0) {
-          stat.executeUpdate("insert into HoldStatus values ('" + userid + "','" + caseid + "','Hold',sysdate(),'" + remarks + "')");
+          stat.executeUpdate("insert into HoldStatus values ('" + userid + "','" + caseid + "','REJ',sysdate(),'" + remarks + "')");
           stmt.executeUpdate(" Insert into Decision_History(decision,Remarks,date_time,stage, UserId,caseid) values( 'REJ','" + remarks + "', sysdate(),'Hold','" + userid + "','" + caseid + "') ");
         } 
         response = "Canceled Request Successful for Case Id " + caseid;
@@ -1296,7 +1305,7 @@ public class LoginDAO {
       ps = con.prepareStatement(decquery);
       rs = ps.executeQuery();
       while (rs.next())
-        currentstage = String.valueOf(currentstage) + "," + rs.getString("inputid"); 
+        currentstage = String.valueOf(String.valueOf(currentstage)) + "," + rs.getString("inputid"); 
     } catch (Exception e) {
       LOGGER.info("Error At Exception=" + e.getMessage());
     } finally {
@@ -1919,6 +1928,7 @@ public class LoginDAO {
     try {
       con = getConnectionDetails();
       String query = " select * from uploadsimages where  case_id='" + caseId + "' order by id desc ";
+      System.out.println("query getImages() : " + query);
       ps = con.prepareStatement(query);
       rs = ps.executeQuery();
       while (rs.next()) {
@@ -1930,6 +1940,9 @@ public class LoginDAO {
         ImagesVo.setOptions(rs.getString("options"));
         ImagesVo.setImgid(rs.getString("id"));
         ImagesVo.setUser_name(rs.getString("user_id"));
+        ImagesVo.setPpf_doc(rs.getString("ppf_doc"));
+        ImagesVo.setTpr_doc(rs.getString("tpr_doc"));
+        ImagesVo.setCbf_doc(rs.getString("cbf_doc"));
         ImagesVo.setDate(rs.getString("date"));
         list.add(ImagesVo);
       } 
@@ -1968,6 +1981,53 @@ public class LoginDAO {
     return list;
   }
   
+  public static List<ImagesVo> getQADoc(String caseId) {
+    List<ImagesVo> list = new ArrayList<>();
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    try {
+      con = getConnectionDetails();
+      ps = con.prepareStatement("select * from cc_crm where  case_id='" + caseId + "' and qa_doc IS NOT NULL");
+      rs = ps.executeQuery();
+      while (rs.next()) {
+        ImagesVo ImagesVo = new ImagesVo();
+        ImagesVo.setCase_id(rs.getString("case_id"));
+        ImagesVo.setDoctor_name(rs.getString("doctor_name"));
+        ImagesVo.setPatient_name(rs.getString("patient_name"));
+        ImagesVo.setClinic_name(rs.getString("clinic_name"));
+        ImagesVo.setUser_name(rs.getString("user_id"));
+        ImagesVo.setQa_doc(rs.getString("qa_doc"));
+        list.add(ImagesVo);
+      } 
+    } catch (Exception e) {
+      LOGGER.info("Error At LoginDAO getQADoc() : " + e.getMessage());
+    } finally {
+      if (rs != null)
+        try {
+          rs.close();
+          rs = null;
+        } catch (SQLException ex) {
+          LOGGER.info("Error At LoginDAO getQADoc() : " + ex.getMessage());
+        }  
+      if (ps != null)
+        try {
+          ps.close();
+          ps = null;
+        } catch (SQLException ex) {
+          LOGGER.info("Error At LoginDAO getQADoc() : " + ex.getMessage());
+        }  
+      if (con != null)
+        try {
+          con.close();
+          con = null;
+        } catch (SQLException ex) {
+          LOGGER.info("Error At LoginDAO getQADoc() : " + ex.getMessage());
+        }  
+    } 
+    return list;
+  }
+  
   public static void insertrecords(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     PrintWriter out = response.getWriter();
     Connection con = null;
@@ -1995,6 +2055,7 @@ public class LoginDAO {
       pstmt.setString(5, options);
       pstmt.setString(6, "Y");
       pstmt.setString(7, user_id);
+      System.out.println("pstmt : " + pstmt);
       int rowaffected = pstmt.executeUpdate();
       if (rowaffected > 0) {
         out.print("Records has been successfully Saved");
@@ -2124,6 +2185,37 @@ public class LoginDAO {
     } 
   }
   
+  public static void zeroAligner(String starter_case_stage) {
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    System.out.println();
+    List<String> zeroAligner = Arrays.asList(new String[] { "INISTRKIT", "LABSTRKIT", "LABSTRKITCOR", "PCKSTRKIT", "PCKSTRKITCOR", "DPHSTRKIT", "MTPSTRKIT", "FQCSTRKIT", "3DPSTRKIT", "3DPSTRKITCOR" });
+    try {
+      con = getConnectionDetails();
+      if (!starter_case_stage.equals(zeroAligner.toString())) {
+        pstmt = con.prepareStatement(" update cc_crm set starter_case_stage='" + starter_case_stage + "',inistrkit_at=now() ");
+        pstmt.executeUpdate();
+      } 
+    } catch (Exception e) {
+      System.out.println("Error At LoginDAO zeroAligner() =" + e.getMessage());
+    } finally {
+      if (pstmt != null)
+        try {
+          pstmt.close();
+          pstmt = null;
+        } catch (SQLException ex) {
+          ex.printStackTrace();
+        }  
+      if (con != null)
+        try {
+          con.close();
+          con = null;
+        } catch (SQLException ex) {
+          ex.printStackTrace();
+        }  
+    } 
+  }
+  
   public static String getcdt() {
     LocalDateTime ldt = LocalDateTime.now();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -2138,17 +2230,23 @@ public class LoginDAO {
     String invoiceResponse = "false";
     String dbcheck = null;
     try {
+      System.out.println("try...getInvoiceNo");
       con = getConnectionDetails();
       pstmt = con.prepareStatement(sql);
       ResultSet rs = pstmt.executeQuery();
+      System.out.println("rs=> " + rs);
       while (rs.next()) {
         dbcheck = rs.getString("invoice_no");
+        System.out.println("dbcheck: " + dbcheck);
         if (!dbcheck.equals(invoice_no) || dbcheck.equals("")) {
+          System.out.println(" login dao if");
           invoiceResponse = "false";
           continue;
         } 
+        System.out.println("login dao else");
         invoiceResponse = "true";
       } 
+      System.out.println("sss invoiceResponse: " + invoiceResponse);
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
@@ -2266,4 +2364,145 @@ public class LoginDAO {
     } 
     return list;
   }
+  
+  public static String getApprovedPlan(String caseId) {
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    String sql = "select planning_id from cc_crm where case_id='" + caseId + "' ";
+    String resultdata = "";
+    try {
+      System.out.println("try...");
+      con = getConnectionDetails();
+      pstmt = con.prepareStatement(sql);
+      rs = pstmt.executeQuery();
+      if (rs.next()) {
+        resultdata = rs.getString("planning_id");
+        System.out.println("getApprovedPlan resultdata: " + resultdata);
+      } 
+    } catch (Exception e) {
+      System.out.println("Exception @ getApprovedPlan{} " + e.getMessage());
+    } 
+    return resultdata;
+  }
+  
+  public static List<PlanningVO> getDrCmntDoc(String caseId) {
+    List<PlanningVO> list = new ArrayList<>();
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    ResultSet rs1 = null;
+    try {
+      con = getConnectionDetails();
+      String query = " select * from planning where  case_id='" + caseId + "' and qadrcmnt_doc IS NOT NULL and qadrcmnt_doc <>'' order by planning_id desc  limit 1";
+      ps = con.prepareStatement(query);
+      rs = ps.executeQuery();
+      while (rs.next()) {
+        PlanningVO planning_View = new PlanningVO();
+        planning_View.setPlanning_id(rs.getInt("planning_id"));
+        planning_View.setPatient_name(rs.getString("patient_name"));
+        planning_View.setDoctor_name(rs.getString("doctor_name"));
+        planning_View.setCrm(rs.getString("crm"));
+        planning_View.setCase_id(rs.getString("case_id"));
+        planning_View.setQadrcmnt_doc(rs.getString("qadrcmnt_doc"));
+        planning_View.setDate(rs.getString("date"));
+        list.add(planning_View);
+      } 
+    } catch (Exception e) {
+      LOGGER.info("Error At LoginDAO getDrCmntDoc() : " + e.getMessage());
+    } finally {
+      if (rs != null)
+        try {
+          rs.close();
+          rs = null;
+        } catch (SQLException ex) {
+          LOGGER.info("Error At LoginDAO getDrCmntDoc() : " + ex.getMessage());
+        }  
+      if (rs1 != null)
+        try {
+          rs1.close();
+          rs1 = null;
+        } catch (SQLException ex) {
+          LOGGER.info("Error At LoginDAO getDrCmntDoc() : " + ex.getMessage());
+        }  
+      if (ps != null)
+        try {
+          ps.close();
+          ps = null;
+        } catch (SQLException ex) {
+          LOGGER.info("Error At LoginDAO getDrCmntDoc() : " + ex.getMessage());
+        }  
+      if (con != null)
+        try {
+          con.close();
+          con = null;
+        } catch (SQLException ex) {
+          LOGGER.info("Error At LoginDAO getImages() : " + ex.getMessage());
+        }  
+    } 
+    return list;
+  }
+  
+  ///Doctor List
+  public static List<DoctorListVo> getDoctorList() {
+	    List<DoctorListVo> list = new ArrayList<>();
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    try {
+	      con = getDigiConnectionDetails();
+	      String query = " select user_id,firstname,lastname from alignwise_users where firstname IS NOT NULL order by firstname asc  ";
+	      ps = con.prepareStatement(query);
+	      rs = ps.executeQuery();
+	      while (rs.next()) {
+	    	  DoctorListVo doctorListVo = new DoctorListVo();
+	    	  doctorListVo.setUser_id(rs.getString("user_id"));
+	    	  doctorListVo.setFullName(rs.getString("firstname")+" "+rs.getString("lastname"));
+	          list.add(doctorListVo);
+	      } 
+	    } catch (Exception e) {
+	      LOGGER.info("Error At LoginDAO getDoctorList() : " + e.getMessage());
+	    } finally {
+	      if (rs != null)
+	        try {
+	          rs.close();
+	          rs = null;
+	        } catch (SQLException ex) {
+	          LOGGER.info("Error At LoginDAO getDoctorList() : " + ex.getMessage());
+	        }  
+	      if (ps != null)
+	        try {
+	          ps.close();
+	          ps = null;
+	        } catch (SQLException ex) {
+	          LOGGER.info("Error At LoginDAO getNewQueryPhotoGrid() : " + ex.getMessage());
+	        }  
+	      if (con != null)
+	        try {
+	          con.close();
+	          con = null;
+	        } catch (SQLException ex) {
+	          LOGGER.info("Error At LoginDAO getNewQueryPhotoGrid() : " + ex.getMessage());
+	        }  
+	    } 
+	    return list;
+	  }
+  
+  public static String getCRM(String user_Name) {
+	    Connection con = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String resultdata = "";
+	    try {
+	      con = getConnectionDetails();
+	      pstmt = con.prepareStatement("select crm_Name from user_mstr where User_id='" + user_Name + "' ");
+	      rs = pstmt.executeQuery();
+	      if (rs.next()) {
+	        resultdata = rs.getString("crm_Name");
+	      } 
+	    } catch (Exception e) {
+	      System.out.println("Exception @ getCRM{} " + e.getMessage());
+	    } 
+	    return resultdata;
+	  }
 }

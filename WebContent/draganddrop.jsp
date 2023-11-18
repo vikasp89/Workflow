@@ -4,24 +4,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Drag and Drop images</title>
+<title>Drag and Drop imagessasdsdsadf</title>
 <!-- CSS only -->
 <link href="css/bootstrap.min.css" rel="stylesheet"
-	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-	crossorigin="anonymous">
+	>
 <link href="StyleSheet/css/font-awesome.min.css" rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/JavaScript/jquery.min.js">
 <!-- JavaScript Bundle with Popper -->
-	<script src="${pageContext.request.contextPath}/JavaScript/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-</script>
+	<script src="${pageContext.request.contextPath}/JavaScript/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <%
 String case_id = request.getParameter("caseId");
 String doctorname = request.getParameter("doctorname");
 String patient_Name = request.getParameter("patient_Name");
 String clinicname = request.getParameter("clinicname");
 
-System.out.println("dragdropimage  jsp =============> " + doctorname);
 
 if (case_id == null) {
 	case_id = "";

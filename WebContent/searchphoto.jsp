@@ -13,8 +13,12 @@
 <%@page import="java.text.DecimalFormatSymbols"%>
 <%@page import="com.vo.ViewVO"%> 
 
-<% List userRights = (List) session.getAttribute("getRight"); %>
-
+<% List userRights = (List) session.getAttribute("getRight");
+session = request.getSession(false);
+if (session.getAttribute("userid") == null || session.getAttribute("userid").equals(""))
+{
+	response.sendRedirect("login.jsp?msg=You are not logged in..!");
+} %>
 <html lang="en">
 
 <head>
@@ -38,7 +42,6 @@
     <script type="text/javascript" language="javascript" src="${pageContext.request.contextPath}/JavaScript/dataTables.js"></script>
 </head>
 <body class="nav-md" >
-<form name="MyInvoiceForm" id="MyInvoiceForm" method="post" action="${pageContext.request.contextPath}/SearchPhotoData" target="_self" >
 <div class="container body">
   <div class="main_container">
     <div class="col-md-3 left_col">
@@ -69,97 +72,73 @@
 <div class="container" style="padding-top:20px;">
   <div class="panel panel-primary">
     <div class="panel-heading"><strong>Search Photo Case ID</strong> </div>
-    <div class="table-responsive" style="margin-left:20px;margin-right:20px">
-		<div style="display: none;">
-		
-		</div>
-		<table class="fontTable" align="center">	
-	
-	<tr id="mesg"><td colspan="3" style="color: red;" class="errorMsg"><strong></strong></td></tr>
-	
-		</table>
-
-<div class="row" id="dispatchReportContainer">
+    	<br>
+    	<form name="wfPhotofrm" id="wfPhotofrm" method="post" action="SearchPhotoData" target="_self" >
+        	
+    <div class="row" id="SearchPhotoContainer">
 									<div class="col-lg-12">
-										<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
-											<label> Case ID </label> 
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+											<label> Case Id <span style="color:red" class="required">*</span></label> 
 											 <input class="form-control" id="caseId"  required  name="caseId">
 										</div>
-										<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
-											<label>Request Type:</label> <select class="form-control" id="requestType">
-												<option value=""></option>
-												<option value="new case">New Case</option>
-												<option value="next batch required">Next Batch</option>
-												
+										
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+											<label>Add/View Photos<span style="color:red" class="required">*</span></label>
+											 <select class="form-control" id="viewphoto" name="viewphoto">
+												<option value="N">Add</option>
+												<option value="Y">View</option>
 											</select>
 										</div>
-										<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
-											<label>Payment Status:</label> <select class="form-control" id="paymentStatus">
-												<option value="unbilled">Unbilled</option>
-												
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="photoTypeContainer">
+											<label>Photo Type<span style="color:red" class="required">*</span></label> <select class="form-control" id="photoType" name="photoType">
+												<option value="">Select an option</option>
+												<option value="Mid Scan">Mid Assessment</option>
+											<!-- 	<option value="newQuery">New Query</option> -->
+												<option value="Next Batch Required">Next Batch Required</option>
+												<option value="repeat">Repeat</option>
+												<option value="Retainer">Retainer</option>
+												<option value="wfOnly">Workflow Added Photo</option>
 											</select>
 										</div>
-										<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
-											<label>Extra Aligner:</label> <select class="form-control" id="extraAligners">
-												<option value="Yes">Yes</option>
-												<option value="No" selected="">No</option>
-											</select>
-										</div>
-										<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
-											<button type="submit" class="btn btn-warning btn-block searchReport" style="margin-top: 24px;">
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+											<button type="submit" class="btn btn-warning btn-block searchReport" id="photobtn" style="margin-top: 24px;">
 												<i class="fa-solid fa-magnifying-glass" style="margin-right: 5px;"></i> Search
 											</button>
 										</div>
 									</div>
-								</div>
-
-     <div style="padding:10px 0px 0px 0px;" >   
-              <div class="form-group" id="D">
-                <label>Case ID</label>
-
-<span style="color:red" class="required">*</span></label>
- <span style="padding-left:129px; margin-top:5px;">	
-  
-     		
-    </span>
- <span style="padding-left:129px; margin-top:5px;">	
-   <input class="form-control" id="caseId"  required name="caseId">
-     		
-    </span>
-    
-      </div>
-	  
-	  </div> 
-	   <div class="table-responsive">
-        <table class="table table-no-bordered" >
-        <!-- Romy -->
-               <tr>
-       <td width="50%" align="right" <% if (userRights.contains("DPH") == true) {%> hidden<% }%>>
-         	<label>If you want to see Uploaded Photo click on check box<span style="color:red" class="required">*</span> <input type="checkbox" name="viewphoto" value="Y" <% if (userRights.contains("DPH") == true) {%> checked<% }%> style=" width: 20px;
-       height: 20px;"/></label>
-         </td>
-         </tr>
-         <!-- Romy -->
-       <tr>
-	   <td width="50%" align="right">
-         <button class="btn btn-primary" type="submit" id="searchScreen" name="searchScreen"  value='searchScreen'><i class="fa fa-picture-o" aria-hidden="true"></i>Search</button>
-        </td>   	      
-         
-       </tr>       
-
-        </table>
-</div>
-
-    	
-    
+								</div><br>
+								</form>
+								</div>						
   </div>
-  </div>
-  
    </div>
-		</form>
-
-            <!-- /page content -->
- 
+		</div>
+		</div>
+		
+		<script type="text/javascript">		
+		/* $("#photoType").on("change", function(event) {		
+			
+			let photoType = $("#photoType").val();	
+			let caseId = $("#caseId").val();
+			let viewphoto = $("#viewphoto").val();
+			
+			if(viewphoto === 'N' && photoType === 'wfOnly' ){
+				$('#wfPhotofrm').attr('action', '${pageContext.request.contextPath}/SearchPhotoData?caseId='+caseId);
+	        }
+			else if(viewphoto === 'Y' && photoType === 'wfOnly' ){
+				//$('#wfPhotofrm').attr('action', '${pageContext.request.contextPath}/SearchPhotoData?caseId='+caseId);
+				$('#wfPhotofrm').attr('action', '${pageContext.request.contextPath}/DispImageGrid?caseId='+caseId+'&photoType='+photoType+'&viewphoto='+viewphoto);
+           }
+			else if(photoType === 'mid'){
+						$('#wfPhotofrm').attr('action', 'http://uri-for-button1.com');
+			}else{
+				$('#wfPhotofrm').attr('action', '${pageContext.request.contextPath}/DispImageGrid?caseId='+caseId+'&photoType='+photoType+'&viewphoto='+viewphoto);
+			}
+		});
+		
+		$("#photobtn").on("submit", function(event) {	
+			alert("test")
+		});*/
+		
+		</script>
 </body>
-
 </html>

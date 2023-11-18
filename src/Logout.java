@@ -22,6 +22,10 @@ public class Logout extends HttpServlet {
       String n = (String)session.getAttribute("userid");
       LoginDAO.logOut(n);
       session.invalidate();
+      session = request.getSession(false);
+      if (session.getAttribute("userid") == null || session.getAttribute("userid").equals("")) {
+      	response.sendRedirect("login.jsp?msg=You are not logged in..!");
+      }
       RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
       rd.forward((ServletRequest)request, (ServletResponse)response);
     } catch (Exception e) {
@@ -33,8 +37,10 @@ public class Logout extends HttpServlet {
     try {
       HttpSession session = request.getSession(false);
       String n = (String)session.getAttribute("userid");
+      
       LoginDAO.logOut(n);
       session.invalidate();
+
       RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
       rd.forward((ServletRequest)request, (ServletResponse)response);
     } catch (Exception e) {

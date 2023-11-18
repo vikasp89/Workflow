@@ -47,9 +47,30 @@ public class PlanningVO {
   
   private String remark;
   
+  public String getQadrcmnt_doc() {
+	return qadrcmnt_doc;
+}
+
+public void setQadrcmnt_doc(String qadrcmnt_doc) {
+	this.qadrcmnt_doc = qadrcmnt_doc;
+}
+
+private String qadrcmnt_doc;
+  
   private String plannId;
   
   private int planning_id;
+  
+  public String getQa_doc() {
+	return qa_doc;
+}
+
+public void setQa_doc(String qa_doc) {
+	this.qa_doc = qa_doc;
+}
+
+private String qa_doc;
+
   
   public String getPlannId() {
     return this.plannId;

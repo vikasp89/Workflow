@@ -2,6 +2,12 @@
 	pageEncoding="ISO-8859-1" isThreadSafe="false" errorPage="Error.jsp"%>
 
 <%
+
+session = request.getSession(false);
+if (session.getAttribute("userid") == null || session.getAttribute("userid").equals("")) {
+	response.sendRedirect("login.jsp?msg=You are not logged in..!");
+}
+
 List userRights = (List) session.getAttribute("getRight");
 String user_name = session.getAttribute("userid").toString();
 ArrayList<String> crm_list = (ArrayList) session.getAttribute("CRMLlist");
@@ -136,9 +142,11 @@ table.dataTable thead>tr>th.sorting:after, table.dataTable thead>tr>th.sorting:b
 
 <body class="nav-md">
 
-payment reminder
+
 <script type="text/javascript">
+
 $(document).ready(function() {
+	 
     $("#year").datepicker({
         changeYear: true,     // Allow changing the year
         showButtonPanel: true, // Show year dropdown and today's button
@@ -159,7 +167,8 @@ $(document).ready(function() {
         maxDate: "+1Y",        // Set the maximum date to 1 year from today
         showButtonPanel: true,  // Show today's button
     });
-});*/
+});
+*/
 
 </script>
 	<div class="container body">
@@ -369,51 +378,9 @@ $(document).ready(function() {
 												<option value="DPHSTRKIT" class="strkit">DPHSTRKIT</option>
 											</datalist>
 										</div>
-										<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="reportTypeContainer">
-											<label>Report Type:</label> <select class="form-control"
-												id="reportType">
-												<% if (userRights.contains("WFC") == true || userRights.contains("account") == true || userRights.contains("DPH") == true) {%>
-												<option value="3dp report">3DP Report</option>
-												<option value="batch report">Batch Stage Report</option>
-												<option value="cases by city report">City wise
-													Report</option>
-												<option value="cases by crm report">CRM wise Report</option>
-												<option value="dispatch report" selected>Dispatch
-													Report</option>
-												<option value="cases by doctor report">Doctor wise
-													Report</option>
-												<option value="hollowtag report">Hollow tag Report</option>
-												<option value="nextbatch report">Next Batch Report</option>
-												<option value="payment report">Payment Report</option>
-												<option value="planning report">Planning Report</option>
-												<option value="signoff report">Sign off Report</option>
-												<option value="starterkit report">Starter kit Report</option>
-												<option value="staging report">Staging Report</option>
-												<option value="upload report">Upload Report</option>
-												<%} %>
-												<option value="stage report">Stage wise Report</option>
-												<option value="user report">User Work Report</option>
-												<option value="payment reminder">Payment Reminder</option>
-												<option value="pending for sign off report">Pending For Sign Off Report</option>
-												<option value="aligner predict dispatch report">Aligner Predict Dispatch Report</option>
-												<option value="Monthly_transaction_report">Monthly Transaction Report</option>
-												<option value="DoctorsMonthlyCases">Doctors Monthly Cases Report</option>
-												<option value="PaymentOverdueReport">Payment Overdue Report</option>
-												<option value="MonthwisePaymentReport">Month Wise Payment Report</option>
-												<option value="PlanningCaseReport">Planning Case Report</option>
-												
-												<!-- <option value="UpdateAlignerSchedule">Update Aligner Schedule</option>  This reported is rejected -->												
-												<!-- 												<option value="fqc report">FQC Report</option> -->
-												<!-- 												<option value="ini cases report">INI Cases Report</option> -->
-												<!-- 												<option value="lab report">Lab Report</option> -->
-												<!--  this is hold because the hold/ unhold  SQL  and backend functionality is not completed
-												<option value="hold_unhold report">Hold & Unhold
-													Case Report</option> -->
-												<!-- 												<option value="packing report">Packing Report</option> -->
-											</select>
-										</div>
+									
 										
-										<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="PaymentOverdueReportContainer" style="display: none;">
+										<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="daysContainer" style="display: none;">
 											<label id="form_labelodue1"><span class="asterisk">*</span>
 												Days:</label> <input type="text" class="form-control" name="payment_overduedays" id="payment_overduedays" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
 										</div>
@@ -428,12 +395,12 @@ $(document).ready(function() {
 										</div>
 										
 										
-									<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="DoctorsMonthlyCasesReportContainer" style="display: none;">
+									<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="yearContainer" style="display: none;">
 											<label id="form_labelyr1"><span class="asterisk">*</span>
 												Year:</label> <input type="text" class="form-control yearpicker" name="year" id="year">
 										</div>
 										
-										<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="MonthwisePaymentReportContainer" style="display: none;">
+										<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="MonthwiseContainer" style="display: none;">
 											<label id="form_labelmonth1"><span class="asterisk">*</span>
 												Month:</label> 
 												  <select  name="monthwise_payment" id="monthwise_payment" class="form-control">
@@ -470,7 +437,49 @@ $(document).ready(function() {
 												    </select>
 										</div>
 										
-										
+											<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" id="reportTypeContainer">
+											<label>Report Type:</label> <select class="form-control"
+												id="reportType">
+												<% if (userRights.contains("WFC") == true || userRights.contains("account") == true || userRights.contains("DPH") == true) {%>
+												<option value="3dp report">3DP Report</option>
+												<option value="batch report">Batch Stage Report</option>
+												<option value="cases by city report">City wise
+													Report</option>
+												<option value="cases by crm report">CRM wise Report</option>
+												<option value="dispatch report" selected>Dispatch
+													Report</option>
+												<option value="cases by doctor report">Doctor wise
+													Report</option>
+												<option value="hollowtag report">Hollow tag Report</option>
+												<option value="nextbatch report">Next Batch Report</option>
+												<option value="payment report">Payment Report</option>
+												<option value="planning report">Planning Report</option>
+												<option value="signoff report">Sign off Report</option>
+												<option value="starterkit report">Starter kit Report</option>
+												<option value="staging report">Staging Report</option>
+												<option value="upload report">Upload Report</option>
+												<%} %>
+												<option value="stage report">Stage wise Report</option>
+												<option value="user report">User Work Report</option>
+												
+												<option value="payment reminder">Payment Reminder Report</option>
+												<option value="pending for sign off report">Pending For Sign Off Report</option>
+												<option value="aligner predict dispatch report">Aligner Predict Dispatch Report</option>
+												<option value="Monthly_transaction_report">Monthly Transaction Report</option>
+												<option value="PlanningCaseReport">Planning Case Report</option>
+												<option value="DoctorsMonthlyCases">Doctors Monthly Cases Report</option>
+												<option value="PaymentOverdueReport">Payment Overdue Report</option>
+												<option value="MonthwisePaymentReport">Month Wise Payment Report</option>
+												<!-- <option value="UpdateAlignerSchedule">Update Aligner Schedule</option>  This reported is rejected -->												
+												<!-- 												<option value="fqc report">FQC Report</option> -->
+												<!-- 												<option value="ini cases report">INI Cases Report</option> -->
+												<!-- 												<option value="lab report">Lab Report</option> -->
+												<!--  this is hold because the hold/ unhold  SQL  and backend functionality is not completed
+												<option value="hold_unhold report">Hold & Unhold
+													Case Report</option> -->
+												<!-- 												<option value="packing report">Packing Report</option> -->
+											</select>
+										</div>
 										<div class="col-lg-2 col-md-4 col-sm-4 col-xs-12" >
 											<button type="button"
 												class="btn btn-warning btn-block searchReport"
@@ -1730,21 +1739,19 @@ $(document).ready(function() {
 	<script>
 	let api_response = "";
 	let multipleData = [];
-	//let host = "http://97.74.91.187:8080/QRCodeGenerator";
-	//let host = "http://localhost:9999";
-	let host = "http://112.196.167.2:8080/QRCodeGenerator";
-	//let host = "http://112.196.167.2:9092";
+	//let host = "https://103.120.178.180:8443/QRCodeGenerator";
+	let host = "http://localhost:2023";
 	$.fn.dataTable.ext.errMode = "none";
 
 	$(document).ready(function() {
 		
 
 		if($("#reportType").val() === "stage report"){
+			alert("test ...")
 			$("#stageContainer").show();
 			$("#searchButton").show();
 			$("#dispatchReportContainer").hide();
 			$("#caseTypeContainer").hide();
-			
 		}
 
 		// Datepicker settings
@@ -1789,163 +1796,8 @@ $(document).ready(function() {
 				$("#crm_names").hide();
 				$("#caseType .optional").show();
 			}
-			
-			if (reportType === "Monthly_transaction_report"  || reportType === "PaymentOverdueReport") {//|| !reportType === "DoctorsMonthlyCases"
-				 $("#caseType").find("option").eq(1).prop("selected", true);
-			}
-			
-			if (reportType === "aligner predict dispatch report") {//|| !reportType === "DoctorsMonthlyCases"
-				$("#caseType").find("option")[1];
-				$("#caseType").find("option")[2];
-				$("#caseType").find("option").not($("#caseType").find("option")[1]).not($("#caseType").find("option")[2]).remove();
-				$("#caseType").val($("#caseType").find("option")[0].value);
 
-			}
-		
-			
-			//for PlanningCaseReport
-			if (reportType === "PlanningCaseReport") {
-				 $("#PlanningCaseReportTableContainer").show();
-				 $("#caseTypeContainer").hide();
-				 $("#fromdateContainer").hide();
-				 $("#todateContainer").hide();
-				 $("#divNotVisible").hide();
-				 $("#fromdateContainer").show();
-				 $("#todateContainer").show();
-				 $("#caseTypeContainer").show();
-				
-			} else {
-				  $("#divNotVisible").show();
-				  $("#DoctorsMonthlyCasesReportContainer").hide();
-				  $("#caseType .optional").show();
-			}
-			
-			//payment reminder
-			if (reportType === "payment reminder") {
-				 $("#fromdateContainer").show();
-				 $("#todateContainer").show();
-				 $("#caseTypeContainer").show();
-				 $("#caseType").find("option")[1];
-				 $("#caseType").find("option")[3];
-				 $("#caseType").find("option")[4];
-				 $("#caseType").find("option")[5];
-				 $("#caseType").find("option")[6];
-				 $("#caseType").find("option")[7];
-				 $("#caseType").find("option")[8];
-				 $("#caseType").find("option")[9];
-				 $("#caseType").find("option")
-				 .not($("#caseType").find("option")[1])
-				 .not($("#caseType").find("option")[3])
-				 .not($("#caseType").find("option")[4])
-				 .not($("#caseType").find("option")[5])
-				 .not($("#caseType").find("option")[6])
-				 .not($("#caseType").find("option")[7])
-				 .not($("#caseType").find("option")[7])
-				 .not($("#caseType").find("option")[8])
-				 .not($("#caseType").find("option")[9])
-				 .remove();
-				
-			} else {
-				  $("#divNotVisible").show();
-				  $("#caseType .optional").show();
-			}
-			//aligner predict dispatch report
-			if (reportType === "aligner predict dispatch reports") {
-				 $("#fromdateContainer").show();
-				 $("#todateContainer").show();
-				
-			} else {
-				  $("#divNotVisible").show();
-				  $("#caseType .optional").show();
-			}
-			
-			//for DoctorsMonthlyCases
-			if (reportType === "DoctorsMonthlyCases") {
-				 $("#DoctorsMonthlyCasesReportContainer").show();
-				 $("#caseTypeContainer").hide();
-				 $("#fromdateContainer").hide();
-				 $("#todateContainer").hide();
-				 $("#divNotVisible").hide();
-				 $("#MonthwisePaymentReportContainer").hide();
-				
-			} else {
-				  $("#divNotVisible").show();
-				  $("#DoctorsMonthlyCasesReportContainer").hide();
-				  $("#caseType .optional").show();
-			}
-			//for PaymentOverdueReport
-			if (reportType === "PaymentOverdueReport") {
-				 $("#caseType").find("option").eq(1).prop("selected", true);
-				 $("#PaymentOverdueReportContainer").show();
-				 $("#caseType .optional").show();
-				 $("#payment_overduedays").show();
-				 $("#caseTypeContainer").show();
-				 $("#fromdateContainer").hide();
-				 $("#todateContainer").hide();
-				 $("#divNotVisible").hide();
-				 
-				 $("#caseTypeContainer").show();
-				 $("#caseType").find("option")[1];
-				 $("#caseType").find("option")[3];
-				 $("#caseType").find("option")[4];
-				 $("#caseType").find("option")[5];
-				 $("#caseType").find("option")[6];
-				 $("#caseType").find("option")[7];
-				 $("#caseType").find("option")[8];
-				 $("#caseType").find("option")[9];
-				 $("#caseType").find("option")
-				 .not($("#caseType").find("option")[1])
-				 .not($("#caseType").find("option")[3])
-				 .not($("#caseType").find("option")[4])
-				 .not($("#caseType").find("option")[5])
-				 .not($("#caseType").find("option")[6])
-				 .not($("#caseType").find("option")[7])
-				 .not($("#caseType").find("option")[7])
-				 .not($("#caseType").find("option")[8])
-				 .not($("#caseType").find("option")[9])
-				 .remove();
-			} else {
-				  $("#divNotVisible").show();
-				  $("#PaymentOverdueReportContainer").hide();
-				 // $("#caseType .optional").show(); 
-				 // $("#caseTypeContainer").hide();
-			}
-			//for MonthwisePaymentReport
-			if (reportType === "MonthwisePaymentReport") {
-				 $("#caseType").find("option").eq(1).prop("selected", true);
-				 $("#MonthwisePaymentReportContainer").show();
-				 $("#DoctorsMonthlyCasesReportContainer").show();
-				 $("#caseTypeContainer").show();
-				 $("#fromdateContainer").hide();
-				 $("#todateContainer").hide();
-				 $("#divNotVisible").hide();
-				 $("#MyCaselistuserContainer1").hide();
-			} else {
-				  $("#divNotVisible").show();
-				 // $("#PaymentOverdueReportContainer").show();
-				  //$("#caseTypeContainer").show();
-				  
-			}
-			//for MyCaselist
-			if (reportType === "MyCaselist") {
-			//	 $("#caseTypeContainer").hide();
-				 $("#MyCaselistReportContainer").show();
-				 $("#MyCaselistuserContainer1").show();
-				 $("#MonthwisePaymentReportContainer").hide();
-				 $("#DoctorsMonthlyCasesReportContainer").hide();
-				 $("#PaymentOverdueReportContainer").hide();
-				 $("#fromdateContainer").hide();
-				 $("#todateContainer").hide();
-				 $("#divNotVisible").hide();
-				 $("#userCaseStatusContainer").show();
-				 
 
-			 } else {
-				  $("#divNotVisible").show();
-				//  $("#PaymentOverdueReportContainer").show();
-				 // $("#caseType .optional").show(); 
-				  $("#userCaseStatusContainer").hide();
-			}
 			if (reportType === "3dp report") {
 				 $("#caseTypeContainer").show();
 			}
@@ -1972,7 +1824,7 @@ $(document).ready(function() {
 				} else {
 					$("#caseType .optional").show();
 				}
-			//
+			
 				if (reportType === "hollowtag report") {
 				$("#caseType .optional").hide();
 				$("#caseTypeContainer").show();
@@ -2045,13 +1897,110 @@ $(document).ready(function() {
 				$("#caseTypeOption").hide();
 			} else {
 				$("#caseTypeOption").show();
-			}			
+			}
 			
-			// 			if (reportType === "ini cases report") {
-			// 				$("#dealerOption, #modelPrintingOption").show();
-			// 			} else {
-			// 				$("#dealerOption, #modelPrintingOption").hide();
-			// 			}
+			// new report
+			if(reportType === "payment reminder" ) {
+				$("#caseTypeContainer").show();
+				$("#caseType").find("option").eq(1).prop("selected", true);
+					$("#caseType .optional").hide();
+					$("#caseTypeContainer").show();
+					$("#caseType").find("option").eq(1).prop("selected", true);
+					//$("#caseType").find('[value="clove"]').remove();
+				} else {
+					$("#caseType .optional").show();				
+					//$('#caseType').append(`<option value="${clove}"> Clove </option>`);
+				}
+			if(reportType === "pending for sign off report" ) {
+				$("#caseTypeContainer").show();
+				$("#caseType").find("option").eq(1).prop("selected", true);
+				$("#caseType .optional").hide();
+				$("#caseTypeContainer").show();
+			} else {
+				$("#caseType .optional").show();
+			}
+			if(reportType === "aligner predict dispatch report" ) {
+				$("#caseTypeContainer").show();
+				$("#caseType").find("option").eq(1).prop("selected", true);
+				$("#caseType .optional").hide();
+				$("#caseTypeContainer").show();
+			} else {
+				$("#caseType .optional").show();
+			}
+			
+			if (reportType === "Monthly_transaction_report") {
+				$("#caseTypeContainer").show();
+				$("#caseType").find("option").eq(1).prop("selected", true);
+				$("#caseType .optional").hide();
+				$("#caseTypeContainer").show();
+			} else {
+				$("#caseType .optional").show();
+			}			
+			if (reportType=== "PlanningCaseReport") {
+				//$("#caseType .optional").hide();
+				$("#caseTypeContainer").show();
+				$("#caseType").find("option").eq(1).prop("selected", true);
+			} else {
+				$("#caseType .optional").show();
+			}	
+			
+			
+			//##
+			if (reportType=== "DoctorsMonthlyCases") {
+				alert("DoctorsMonthlyCases")
+				$("#caseTypeContainer").hide();
+				$("#fromdateContainer").hide();
+				$("#todateContainer").hide();
+				$("#yearContainer").show();
+			} else {
+				$("#yearContainer").hide();
+				$("#caseType .optional").show();
+				$("#caseTypeContainer").show();
+				$("#fromdateContainer").show();
+				$("#todateContainer").show();
+			}			
+			if (reportType=== "PaymentOverdueReport") {
+				$("#caseTypeContainer").show();
+				$("#fromdateContainer").hide();
+				$("#todateContainer").hide();
+				$("#daysContainer").show();
+				$("#caseType").find("option").eq(1).prop("selected", true);
+			} else {
+				$("#daysContainer").hide();
+				$("#caseType .optional").show();
+				$("#caseTypeContainer").show();
+				$("#fromdateContainer").show();
+				$("#todateContainer").show();
+			}
+			
+			if (reportType=== "MonthwisePaymentReport") {
+				$("#caseTypeContainer").show();
+				$("#MonthwiseContainer").show();
+				$("#yearContainer").show();
+				$("#fromdateContainer").hide();
+				$("#todateContainer").hide();
+				$("#caseType").find("option").eq(1).prop("selected", true);
+			} else {
+				$("#MonthwiseContainer").hide();
+				$("#yearContainer").hide();		
+				$("#caseType .optional").show();
+				$("#caseTypeContainer").show();
+				if (reportType=== "PaymentOverdueReport") {
+					$("#fromdateContainer").hide();
+					$("#todateContainer").hide();
+				}else{
+					$("#fromdateContainer").show();
+					$("#todateContainer").show();
+				}
+				
+				$("#caseType").find("option").eq(1).prop("selected", true);
+			}
+			
+			
+			
+			
+			////
+
 		});
 
 		// To deselect header selection 		
@@ -2363,11 +2312,8 @@ $(document).ready(function() {
 				$("#stage").css("border-color", "#CCCCCC");
 				$("#form_label6").css("color", "black");
 			}
-			
-			
-	
 			//
-			if (reportType === "payment reminder" && caseType==="" ) {
+			if (reportType === "payment reminder" && caseType==="") {
 				alert(" Case Type must be filled out!")
 				return false;
 			}
@@ -2398,10 +2344,10 @@ $(document).ready(function() {
 			 if (reportType === "PaymentOverdueReport"  && payment_overduedays==="") {
 				alert("Day must be filled out!")
 				return false;
-			}  		if (reportType === "PaymentOverdueReport"  && caseType==="") {
-				alert("Case Type must be filled out!")
+			}  	/*	if (reportType === "PaymentOverdueReport"  && caseType==="") {
+				alert("Case Type must be filled out!3")
 				return false;
-			} 
+			} */
 
 			if (startdate != "" && enddate != "" && reportType !== "user report" &&  reportType !== "batch report" &&  reportType !== "starterkit report" &&  reportType !== "stage report") {
 				isReady = true;
@@ -2484,14 +2430,15 @@ $(document).ready(function() {
 					  url = "/WFDoctorsMonthlyCasesReport?year="+year//+ year	
 			} 
 			 else if (reportType === "PaymentOverdueReport") {
-					  url = "/WFAlignerPaymentOverdueReport?caseType="+caseType+"&days=100"//
+					  url = "/WFAlignerPaymentOverdueReport?caseType="+caseType+"&days="+payment_overduedays//
+						console.log("PaymentOverdueReport: "+url)
 			} 
 			 else if (reportType === "MonthwisePaymentReport") {
 					  url = "/WFMonthwisePaymentReport?year="+year+"&month="+month+"&type="+caseType//	
 			}  
 			 else if (reportType === "PlanningCaseReport") {
 				  url = "/GetPlanningCaseReport?fromDate="+ startdate + "&toDate=" + enddate + "&caseType="+caseType				     
-			} 
+			}
 
 			if (isReady) {
 				$("#loaderPanel").show();
@@ -4078,7 +4025,8 @@ $(document).ready(function() {
 	//429
 	
 	$(document).ready(function() {		
-		fetch("http://112.196.167.2:8080/DigiplanAPI/getAllUsers", {
+		fetch("http://localhost:1001/getAllUsers", {
+			//fetch("http://112.196.167.2:8080/DigiplanAPI/getAllUsers", {
 			  method: "GET",
 			  headers: {
 			    "accept": "*/*"

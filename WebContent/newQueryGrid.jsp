@@ -37,6 +37,39 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js"></script>
+<style>
+table.dataTable thead .sorting:after, table.dataTable thead .sorting:before,
+	table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_asc:before,
+	table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_asc_disabled:before,
+	table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_desc:before,
+	table.dataTable thead .sorting_desc_disabled:after, table.dataTable thead .sorting_desc_disabled:before
+	{
+	bottom: .5em;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+	border: 1px solid #aaa;
+	border-radius: 3px;
+	padding: 5px;
+	background-color: transparent;
+	margin-left: 3px;
+}
+
+.dataTables_wrapper .dataTables_length select {
+	border: 1px solid #aaa;
+	border-radius: 3px;
+	padding: 5px;
+	background-color: transparent;
+	padding: 4px;
+}
+
+label {
+	display: inline-block;
+	max-width: 100%;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+</style>
 <script>
 
 function getAllnewQueryRequest() {
@@ -110,41 +143,6 @@ function getAllnewQueryRequest() {
     });
 }
 </script>
-
-<style>
-table.dataTable thead .sorting:after, table.dataTable thead .sorting:before,
-	table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_asc:before,
-	table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_asc_disabled:before,
-	table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_desc:before,
-	table.dataTable thead .sorting_desc_disabled:after, table.dataTable thead .sorting_desc_disabled:before
-	{
-	bottom: .5em;
-}
-
-.dataTables_wrapper .dataTables_filter input {
-	border: 1px solid #aaa;
-	border-radius: 3px;
-	padding: 5px;
-	background-color: transparent;
-	margin-left: 3px;
-}
-
-.dataTables_wrapper .dataTables_length select {
-	border: 1px solid #aaa;
-	border-radius: 3px;
-	padding: 5px;
-	background-color: transparent;
-	padding: 4px;
-}
-
-label {
-	display: inline-block;
-	max-width: 100%;
-	margin-bottom: 5px;
-	font-weight: bold;
-}
-</style>
-
 </head>
 <body class="nav-md" onload="getAllnewQueryRequest()">
 	<div class="container body">

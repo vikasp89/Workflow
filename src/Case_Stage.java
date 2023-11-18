@@ -312,8 +312,7 @@ public class Case_Stage extends HttpServlet {
 			prestmt04 = connection01.prepareStatement(Query04);
 			resultset04 = prestmt04.executeQuery();
 			while (resultset04.next()) {
-				PreparedStatement pstmt1 = connection01.prepareStatement(
-						" SELECT count(*) as Today,date_format(ini_at, '%m/%d/%Y' ) as my_date FROM cc_crm where date_format(ini_at, '%m/%d/%Y' )=date_format(CURDATE(), '%m/%d/%Y')");
+				PreparedStatement pstmt1 = connection01.prepareStatement(" SELECT count(*) as Today,date_format(ini_at, '%m/%d/%Y' ) as my_date FROM cc_crm where date_format(ini_at, '%m/%d/%Y' )=date_format(CURDATE(), '%m/%d/%Y')");
 				ResultSet rs1 = pstmt1.executeQuery();
 				while (rs1.next())
 					linkedHashMap04.put("New", rs1.getString("Today"));

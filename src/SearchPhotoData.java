@@ -24,10 +24,12 @@ public class SearchPhotoData extends HttpServlet {
   }
   
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	  System.out.println("post..........................");
     PrintWriter out = response.getWriter();
-    HttpSession session = request.getSession();
+    HttpSession session = request.getSession(); 
     System.out.println("SearchPhotoData  hit ");
     Connection con = null;
+    Connection con1 = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     String CaseId = "";
@@ -35,18 +37,24 @@ public class SearchPhotoData extends HttpServlet {
     String PatientName = "";
     String ClinicName = "";
     String viewphoto = "";
+    String photoType = "";
     CaseId = (request.getParameter("caseId") == null) ? "" : request.getParameter("caseId");
     DoctorName = (request.getParameter("doctorname") == null) ? "" : request.getParameter("doctorname");
     PatientName = (request.getParameter("patient_Name") == null) ? "" : request.getParameter("patient_Name");
     ClinicName = (request.getParameter("clinicname") == null) ? "" : request.getParameter("clinicname");
     viewphoto = (request.getParameter("viewphoto") == null) ? "" : request.getParameter("viewphoto");
-    String sql = "select * from cc_crm where Case_Id='" + CaseId + "' ";
+    photoType = (request.getParameter("photoType") == null) ? "" : request.getParameter("photoType");
+    
+    System.out.println("DoctorName "+DoctorName+" photoType: "+photoType+" viewphoto: "+viewphoto);
+    
+    String wfOnlysql = "select * from cc_crm where Case_Id='" + CaseId + "' ";
     try {
       con = LoginDAO.getConnectionDetails();
-      if (viewphoto.endsWith("Y")) {
-        response.sendRedirect("DispImageGrid?caseId=" + CaseId);
-      } else {
-        pstmt = con.prepareStatement(sql);
+      
+      if (viewphoto.equalsIgnoreCase("N") && photoType.equals("wfOnly")) {
+          response.sendRedirect("DragDropImages?caseId=" + CaseId + "&doctorname=" + DoctorName + "&patient_Name=" + PatientName + "&clinicname=" + ClinicName);
+      } else if (viewphoto.equalsIgnoreCase("Y") && photoType.equals("wfOnly")) {
+        pstmt = con.prepareStatement(wfOnlysql);
         rs = pstmt.executeQuery();
         if (rs.next()) {
           CaseId = rs.getString("Case_Id");
@@ -54,8 +62,16 @@ public class SearchPhotoData extends HttpServlet {
           PatientName = rs.getString("Patient_Name");
           ClinicName = rs.getString("clinic_Name");
         } 
-        response.sendRedirect("DragDropImages?caseId=" + CaseId + "&doctorname=" + DoctorName + "&patient_Name=" + PatientName + "&clinicname=" + ClinicName);
-      } 
+        response.sendRedirect("DispImageGrid?caseId=" + CaseId + "&doctorname=" + DoctorName + "&patient_Name=" + PatientName + "&clinicname=" + ClinicName);
+      }
+      else if (photoType.equalsIgnoreCase("Mid Scan")) {
+    	  System.out.println("mid else if");   
+    	  response.sendRedirect("NewQueryPhotoGrid?caseId=" + CaseId + "&typeOfRequest=" + photoType); 
+    	  }
+      else if (photoType.equalsIgnoreCase("Next Batch Required")) {
+    	  System.out.println("nextBatch else if");   
+          response.sendRedirect("NewQueryPhotoGrid?caseId=" + CaseId + "&typeOfRequest=" + photoType);
+      }
     } catch (ClassNotFoundException|java.sql.SQLException e) {
       e.printStackTrace();
     } 

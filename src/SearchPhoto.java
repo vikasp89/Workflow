@@ -18,7 +18,13 @@ public class SearchPhoto extends HttpServlet {
   static final Logger LOGGER = LogManager.getLogger(SearchPhoto.class);
   
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    HttpSession session = request.getSession(false);
+	 HttpSession session = request.getSession(false);
+     session = request.getSession(false);
+	  if (session.getAttribute("userid") == null || session.getAttribute("userid").equals(""))
+	  {
+	  	response.sendRedirect("login.jsp?msg=You are not logged in..!");
+	  }
+	  
     String userid = (String)session.getAttribute("userid");
     request.setAttribute("username", userid);
     RequestDispatcher rd = request.getRequestDispatcher("searchphoto.jsp");

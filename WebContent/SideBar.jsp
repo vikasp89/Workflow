@@ -4,7 +4,14 @@
 <%@page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="com.workflow.connection.LoginDAO"%>
+<%
+String sessioncrmName = (String) session.getAttribute("crm_Name");
 
+
+List<String> CRMLlist11 = (ArrayList<String>) session.getAttribute("CRMLlist");
+System.out.println("sidebar crm name "+sessioncrmName);
+
+%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -104,6 +111,24 @@ opacity
 	$(".gif").click(function() {
 		$(".loader").fadeIn("slow");
 	});
+</script>
+<script type="text/javascript">
+var apiCrm = null;
+var settings = {
+		  "url": "http://112.196.167.2:8080/DigiplanAPI/getCrmName/"+sessioncrmName,
+		  "method": "GET",
+		  "timeout": 0,
+		  "headers": {
+		    "accept": "*/*"
+		  },
+		};
+
+		$.ajax(settings).done(function (response) {
+		  console.log(response);
+		  apiCrm = response.results.crmName;
+		  console.log("crm: "+response.results.crmName);
+		});
+		console.log("apiCrm: "+apiCrm)
 </script>
 <body>
 
@@ -327,10 +352,20 @@ $(document).ready(function(){
 							class="fa fa-file" aria-hidden="true"></i> REPORTS</a></li>
 	
 <%}%>
-					<li><a class="gif" id="sidebarSearch" href="SearchParam1.jsp"><i
+
+							<%							
+							if(CRMLlist11.contains(sessioncrmName)){
+							%>
+								 <li><a class="gif" id="sidebarSearch" href="CRMSearchGrid.jsp"><i class="fa fa-search"></i> CRM SEARCH </a> </li>
+								 
+							<% }else{%>
+							<li><a class="gif" id="sidebarSearch" href="SearchParam1.jsp"><i
+														class="fa fa-search"></i> SEARCH </a> </li>
+							<%} %>
+					<!--<li><a class="gif" id="sidebarSearch" href="SearchParam1.jsp"><i
 							class="fa fa-search"></i> SEARCH </a> </li>							
 						
-							<li class="nav-dropdown  active">
+							 <li class="nav-dropdown  active">
                         <a href="#" title="Pages"><span></span>
                             <i class="fa  fa-fw fa-file-text"></i> New Reports
                         </a>
@@ -339,7 +374,7 @@ $(document).ready(function(){
                             <li> <a href="pages-profile.html" title="Profile">Profile</a></li>
                             <li><a href="pages-sign-in.html" title="Sign In">Sign In</a></li>
                         </ul>
-                    </li>
+                    </li>-->
                     
                     <%-- <%
  if(getRight.contains("WFC")||getRight.contains("PRE")){%>
