@@ -11,6 +11,7 @@ if (session.getAttribute("userid") == null || session.getAttribute("userid").equ
 List userRights = (List) session.getAttribute("getRight");
 String user_name = session.getAttribute("userid").toString();
 ArrayList<String> crm_list = (ArrayList) session.getAttribute("CRMLlist");
+
 Connection connection12 = LoginDAO.getConnectionDetails();
 PreparedStatement stmt12 = connection12.prepareStatement("select distinct user_id from user_right where user_right not in('vo') order by user_id");
 ResultSet rs12 = stmt12.executeQuery();
