@@ -328,8 +328,22 @@ public class Case_Stage extends HttpServlet {
 			}
 			request.setAttribute("scanimpression", linkedHashMap04);
 
-			RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
-			rd.forward((ServletRequest) request, (ServletResponse) response);
+			
+			
+			String sessioncrmName = (String) session.getAttribute("crm_Name");
+
+
+			List<String> CRMLlist11 = (ArrayList<String>) session.getAttribute("CRMLlist");
+			System.out.println("Case Stage=====> "+sessioncrmName);
+			
+			if(CRMLlist11.contains(sessioncrmName)){
+				RequestDispatcher rd = request.getRequestDispatcher("CRMSearchGrid.jsp");
+				rd.forward((ServletRequest) request, (ServletResponse) response);
+			 }else{
+				 RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");
+					rd.forward((ServletRequest) request, (ServletResponse) response);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

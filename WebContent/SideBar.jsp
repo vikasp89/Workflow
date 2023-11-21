@@ -183,9 +183,17 @@ $(document).ready(function(){
 				<ul class="nav side-menu">
 					<input type="hidden" name="username" id="logusername"
 						value='<%=request.getAttribute("username")%>' />
-					<li><a class="gif" id="SubmitNewInvoice" href="Case_Stage"><i
+					
+							
+							<%							
+							if(CRMLlist11.contains(sessioncrmName)){
+							%>
+								 
+							<% }else{%>
+							<li><a class="gif" id="SubmitNewInvoice" href="Case_Stage"><i
 							class="fa fa-dashboard"></i> DASHBOARD <span
 							class="fa fa-chevron-right"></span></a></li>
+							<%} %>
 					<%-- <%
  if(session.getAttribute("initiationFlag").equals("I")){%>
  
