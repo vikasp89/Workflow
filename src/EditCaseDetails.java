@@ -784,7 +784,7 @@ public class EditCaseDetails extends HttpServlet {
 	        		+ "bgst_no=?, category=?,upper_aligner=?,lower_aligner=?,others=?, Patient_Name=?,priority=?,remark=?,user_id=?,total_amount=?,payment_processing=?,"
 	        		+ "payment_mode=?,address1=?,address2=?,address3=?,address4=?,address5=?,location=?,location2=?,location3=?,location4=?,location5=?,city=?,city2=?,"
 	        		+ "city3=?,city4=?,city5=?,pincode1=?,pincode2=?,pincode3=?,pincode4=?,pincode5=?,default_address=?,default_starterkit=?,phone1=?,phone2=?,phone3=?,"
-	        		+ "phone4=?,phone5=?,starter_case_stage='INISTRKIT',inistrkit_at=now(),starter_satus='N',holdflag='N',case_stage=?,wfc_at=now()"
+	        		+ "phone4=?,phone5=?,starter_case_stage='INISTRKIT',inistrkit_at=now(),starter_satus='Y',holdflag='N',case_stage=?,wfc_at=now()"
 	        		+ ",patient_email=?,treating_dr_email=? where case_id='" +  Case_Id + "' ";
 			       }else {
 			    	   query = " update cc_crm set scan=?,registered_doctor=?,crm_name=?,clinic_name=?,p_graph=?,starter_kit=?,type_request=?,s_shown=?,ppf_fill=?,t_account=?,"
@@ -792,7 +792,7 @@ public class EditCaseDetails extends HttpServlet {
 			              		+ "bgst_no=?, category=?,upper_aligner=?,lower_aligner=?,others=?, Patient_Name=?,priority=?,remark=?,user_id=?,total_amount=?,payment_processing=?,"
 			              		+ "payment_mode=?,address1=?,address2=?,address3=?,address4=?,address5=?,location=?,location2=?,location3=?,location4=?,location5=?,city=?,city2=?,"
 			              		+ "city3=?,city4=?,city5=?,pincode1=?,pincode2=?,pincode3=?,pincode4=?,pincode5=?,default_address=?,default_starterkit=?,phone1=?,phone2=?,phone3=?,"
-			              		+ "phone4=?,phone5=?,starter_satus='N',holdflag='N',case_stage=?,wfc_at=now()"
+			              		+ "phone4=?,phone5=?,starter_satus='Y',holdflag='N',case_stage=?,wfc_at=now()"
 			              		+ ",patient_email=?,treating_dr_email=? where case_id='" +Case_Id + "' ";
 				}
 		}else {
@@ -801,7 +801,7 @@ public class EditCaseDetails extends HttpServlet {
 		        		+ "bgst_no=?, category=?,upper_aligner=?,lower_aligner=?,others=?, Patient_Name=?,priority=?,remark=?,user_id=?,total_amount=?,payment_processing=?,"
 		        		+ "payment_mode=?,address1=?,address2=?,address3=?,address4=?,address5=?,location=?,location2=?,location3=?,location4=?,location5=?,city=?,city2=?,"
 		        		+ "city3=?,city4=?,city5=?,pincode1=?,pincode2=?,pincode3=?,pincode4=?,pincode5=?,default_address=?,default_starterkit=?,phone1=?,phone2=?,phone3=?,"
-		        		+ "phone4=?,phone5=?,starter_case_stage='INISTRKIT',inistrkit_at=now(),starter_satus='N',holdflag='N',case_stage=?,wfc_at=now()"
+		        		+ "phone4=?,phone5=?,starter_case_stage='INISTRKIT',inistrkit_at=now(),starter_satus='Y',holdflag='N',case_stage=?,wfc_at=now()"
 		        		+ ",patient_email=?,treating_dr_email=? where case_id='" +Case_Id + "' ";
 		}
         //focus

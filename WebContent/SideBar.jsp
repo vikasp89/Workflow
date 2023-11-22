@@ -311,8 +311,8 @@ $(document).ready(function(){
 							class="fa fa-chevron-right"></span></a></li>
 
 							
-							<li><a class="gif" id="sidebardraft" href="newQueryGrid.jsp"><i
-							class="fa fa-picture-o" aria-hidden="true"></i> NEW QUERY PHOTO</a> </li>
+							<!-- <li><a class="gif" id="sidebardraft" href="newQueryGrid.jsp"><i
+							class="fa fa-picture-o" aria-hidden="true"></i> NEW QUERY PHOTO</a> </li> -->
 					<%}%>
 
 
@@ -359,7 +359,7 @@ $(document).ready(function(){
 						<li><a class="gif" id="sidebarSearch" href="reports.jsp"><i
 							class="fa fa-file" aria-hidden="true"></i> REPORTS</a></li>
 	
-<%}%>
+						<%}%>
 
 							<%							
 							if(CRMLlist11.contains(sessioncrmName)){

@@ -75,7 +75,7 @@
             <div class="right_col" role="main">
 <div class="container" style="padding-top:20px;">
   <div class="panel panel-primary">
-    <div class="panel-heading"><strong>MyInvoice</strong> </div>
+    <div class="panel-heading"><strong>Photo View Screen</strong> </div>
     <div class="table-responsive">
 		
 		

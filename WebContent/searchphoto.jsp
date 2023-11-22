@@ -81,14 +81,6 @@ if (session.getAttribute("userid") == null || session.getAttribute("userid").equ
 											<label> Case Id <span style="color:red" class="required">*</span></label> 
 											 <input class="form-control" id="caseId"  required  name="caseId">
 										</div>
-										
-										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-											<label>Add/View Photos<span style="color:red" class="required">*</span></label>
-											 <select class="form-control" id="viewphoto" name="viewphoto">
-												<option value="N">Add</option>
-												<option value="Y">View</option>
-											</select>
-										</div>
 										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" id="photoTypeContainer">
 											<label>Photo Type<span style="color:red" class="required">*</span></label> <select class="form-control" id="photoType" name="photoType">
 												<option value="">Select an option</option>
@@ -100,6 +92,14 @@ if (session.getAttribute("userid") == null || session.getAttribute("userid").equ
 												<option value="wfOnly">Workflow Added Photo</option>
 											</select>
 										</div>
+										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+											<label>Add/View Photos<span style="color:red" class="required">*</span></label>
+											 <select class="form-control" id="viewphoto" name="viewphoto">
+												<option value="N">Add</option>
+												<option value="Y" selected>View</option>
+											</select>
+										</div>
+										
 										<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 											<button type="submit" class="btn btn-warning btn-block searchReport" id="photobtn" style="margin-top: 24px;">
 												<i class="fa-solid fa-magnifying-glass" style="margin-right: 5px;"></i> Search
@@ -114,6 +114,21 @@ if (session.getAttribute("userid") == null || session.getAttribute("userid").equ
 		</div>
 		</div>
 		
+	<script>
+/* 	let photoType = $("#photoType").val();
+	let viewphoto = $("#viewphoto").val();
+
+	$(document).ready(function() {
+		
+
+		if($("#reportType").val() === "wfOnly"){
+			$("#viewphoto").find("option").eq(1).prop("selected", true);
+			
+		}else{
+			$("#viewphoto").find("option").eq(1).prop("selected", true);
+		}
+		}); */
+		</script>
 		<script type="text/javascript">		
 		/* $("#photoType").on("change", function(event) {		
 			

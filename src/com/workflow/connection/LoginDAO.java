@@ -4,6 +4,8 @@ import com.vo.AccountVo;
 import com.vo.DoctorListVo;
 import com.vo.DraftVo;
 import com.vo.ImagesVo;
+import com.vo.MidAssessmentVo;
+import com.vo.NewQueryPhotoVo;
 import com.vo.Newcase1;
 import com.vo.PendingVO;
 import com.vo.PlanningVO;
@@ -2442,7 +2444,115 @@ public class LoginDAO {
     } 
     return list;
   }
+  public static List<NewQueryPhotoVo> getNewQueryPhotoGrid(String caseId,String typeOfRequest) {
+	  
+	  System.out.println("Login DAO caseId "+caseId+" typeOfRequest "+typeOfRequest);
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    List<NewQueryPhotoVo> list = new ArrayList<>();
+
+	    try {
+	      con = getDigiConnectionDetails();
+	      ps = con.prepareStatement(" select * from wisealign_case_booking where  case_id='" + caseId + "' and type_of_request='"+typeOfRequest+"' order by case_booking_id desc ");
+	      rs = ps.executeQuery();
+	      while (rs.next()) {
+	    	  NewQueryPhotoVo newQueryPhotoVo = new NewQueryPhotoVo();
+	    	  newQueryPhotoVo.setCase_booking_id(rs.getString("case_booking_id"));
+	    	  newQueryPhotoVo.setCase_id(rs.getString("case_id"));
+	    	  newQueryPhotoVo.setPatient_name(rs.getString("patient_name"));
+	    	  newQueryPhotoVo.setDoctor_name(rs.getString("doctor_name"));
+	    	  newQueryPhotoVo.setCrm_name(rs.getString("crm_name"));
+	    	  newQueryPhotoVo.setCase_type(rs.getString("type_of_request"));
+	    	  newQueryPhotoVo.setCreated_at(rs.getString("created_at"));
+	          list.add(newQueryPhotoVo);
+	      } 
+	    } catch (Exception e) {
+	      LOGGER.info("Error At LoginDAO getNewQueryPhotoGrid() : " + e.getMessage());
+	    } finally {
+	      if (rs != null)
+	        try {
+	          rs.close();
+	          rs = null;
+	        } catch (SQLException ex) {
+	          LOGGER.info("Error At LoginDAO getNewQueryPhotoGrid() : " + ex.getMessage());
+	        }   
+	      if (ps != null)
+	        try {
+	          ps.close();
+	          ps = null;
+	        } catch (SQLException ex) {
+	          LOGGER.info("Error At LoginDAO getNewQueryPhotoGrid() : " + ex.getMessage());
+	        }  
+	      if (con != null)
+	        try {
+	          con.close();
+	          con = null;
+	        } catch (SQLException ex) {
+	          LOGGER.info("Error At LoginDAO getNewQueryPhotoGrid() : " + ex.getMessage());
+	        }  
+	    } 
+	    return list;
+	  }
   
+  // Mid assessment photo
+  
+  public static List<MidAssessmentVo> getMidAssessmentPhotoGrid(String caseId) {
+	  
+	     System.out.println("Login DAO getMidAssessmentPhotoGrid() "+caseId);
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    List<MidAssessmentVo> list = new ArrayList<>();
+
+	    try {
+	      con = getDigiConnectionDetails();
+	      ps = con.prepareStatement(" select * from mid_assessment where  caseid='"+caseId+"' order by request_id desc; ");
+	      rs = ps.executeQuery();
+	      while (rs.next()) {
+	    	  MidAssessmentVo midAssessmentVo = new MidAssessmentVo();
+	    	  midAssessmentVo.setRequest_id(rs.getString("request_id"));
+	    	  midAssessmentVo.setCaseid(rs.getString("Caseid"));
+	    	  midAssessmentVo.setPatient_name(rs.getString("patient_name"));
+	    	  midAssessmentVo.setDoctor_name(rs.getString("doctor_name"));
+	    	  midAssessmentVo.setPhoto1(rs.getString("photo1"));
+	    	  midAssessmentVo.setPhoto2(rs.getString("photo2"));
+	    	  midAssessmentVo.setPhoto3(rs.getString("photo3"));
+	    	  midAssessmentVo.setPhoto4(rs.getString("photo4"));
+	    	  midAssessmentVo.setRequest_status(rs.getString("request_status"));
+	    	  //midAssessmentVo.setFile_path(rs.getString("file_path"));
+	    	  midAssessmentVo.setCreated_date(rs.getString("created_date"));
+	          list.add(midAssessmentVo);
+	      } 
+	    } catch (Exception e) {
+	      LOGGER.info("Error At LoginDAO getNewQueryPhotoGrid() : " + e.getMessage());
+	    } finally {
+	      if (rs != null)
+	        try {
+	          rs.close();
+	          rs = null;
+	        } catch (SQLException ex) {
+	          LOGGER.info("Error At LoginDAO getNewQueryPhotoGrid() : " + ex.getMessage());
+	        }   
+	      if (ps != null)
+	        try {
+	          ps.close();
+	          ps = null;
+	        } catch (SQLException ex) {
+	          LOGGER.info("Error At LoginDAO getNewQueryPhotoGrid() : " + ex.getMessage());
+	        }  
+	      if (con != null)
+	        try {
+	          con.close();
+	          con = null;
+	        } catch (SQLException ex) {
+	          LOGGER.info("Error At LoginDAO getNewQueryPhotoGrid() : " + ex.getMessage());
+	        }  
+	    } 
+	    return list;
+	  }
+  
+  // end mid photos
   ///Doctor List
   public static List<DoctorListVo> getDoctorList() {
 	    List<DoctorListVo> list = new ArrayList<>();

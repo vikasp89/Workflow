@@ -1223,7 +1223,7 @@ if(badd!=null){
 				
 				</div>
 				<div class="col-lg-6" style="padding-left:10px; padding-right:10px;">
-				<input type="text" id="doctorNameSelect"value="<%=c_doctor%>">
+				<%-- <input type="text" id="doctorNameSelect"value="<%=c_doctor%>"> --%>
 <%-- 				<input type="text" name="c_doctor"  id="c_doctor" placeholder="Enter Doctor Name" value="<%=c_doctor%>"  class="form-control cadbsForm"  >
  --%>				<select class="form-control" id="c_doctor" name="c_doctor">
 					
