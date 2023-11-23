@@ -87,7 +87,7 @@ if (session.getAttribute("userid") == null || session.getAttribute("userid").equ
 												<option value="Mid Scan">Mid Assessment</option>
 											<!-- 	<option value="newQuery">New Query</option> -->
 												<option value="Next Batch Required">Next Batch Required</option>
-												<option value="repeat">Repeat</option>
+												<option value="Repeat">Repeat</option>
 												<option value="Retainer">Retainer</option>
 												<option value="wfOnly">Workflow Added Photo</option>
 											</select>

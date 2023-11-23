@@ -36,10 +36,9 @@ public class NewQueryPhotoGrid extends HttpServlet {
 		    HttpSession session = request.getSession();
 		    String n = (String)session.getAttribute("userid");
 		    request.setAttribute("username", n);
-		    if(typeOfRequest.equals("Next Batch Required")) {
+		    if(typeOfRequest.equals("Next Batch Required") || typeOfRequest.equals("Retainer") || typeOfRequest.equals("Repeat")) {
 		    	List<NewQueryPhotoVo> newQueryPhotoVo = LoginDAO.getNewQueryPhotoGrid(caseId,typeOfRequest);
 		    	request.setAttribute("NewQueryPhotoList", newQueryPhotoVo);
-		    	
 		    }
 		    else if(typeOfRequest.equals("Mid Scan")) {
 		    	 List<MidAssessmentVo> midAssessmentPhotoGrid = LoginDAO.getMidAssessmentPhotoGrid(caseId);
@@ -47,7 +46,7 @@ public class NewQueryPhotoGrid extends HttpServlet {
 		    }
 		    request.setAttribute("typeOfRequest", typeOfRequest);
 		   
-		    if(typeOfRequest.equals("Next Batch Required") || typeOfRequest.equals("Retainer")) {
+		    if(typeOfRequest.equals("Next Batch Required") || typeOfRequest.equals("Retainer") || typeOfRequest.equals("Repeat")) {
 		    	 RequestDispatcher rd = request.getRequestDispatcher("DigiplanPhotoGrid.jsp");
 				 rd.forward((ServletRequest)request, (ServletResponse)response);
 		    }else  if(typeOfRequest.equals("Mid Scan")){

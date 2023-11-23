@@ -115,7 +115,7 @@ String patient_name = "";
         <td colspan="9">
 <div class="col-lg-12">
                         <div class="table-responsive">
-      <% if(typeOfRequest.equals("Next Batch Required")) {  %>
+      <% if(typeOfRequest.equals("Next Batch Required") || typeOfRequest.equalsIgnoreCase("Retainer") || typeOfRequest.equalsIgnoreCase("Repeat")) { %>
     <table role="grid" id="newquery" class="table table-bordered table-striped table-hover dataTable">
     <thead style="background:black;color:white;">
     
@@ -147,7 +147,7 @@ if(CrmName==null)
 	CrmName="";
 %>
 		<tr class="even" role="row">
-		 	<TD><a href="DigiplanPhotoShow.jsp?id=<%=newQueryPhotoVo.getCase_booking_id()%>&typeOfRequest='Next Batch Required'"><%= newQueryPhotoVo.getCase_booking_id() %></a></TD>
+		 	<TD><a href="DigiplanPhotoShow.jsp?id=<%=newQueryPhotoVo.getCase_booking_id()%>&typeOfRequest=<%=typeOfRequest %>"><%= newQueryPhotoVo.getCase_booking_id() %></a></TD>
 			<TD> <%= newQueryPhotoVo.getCase_id() %></TD>
 			<TD> <%= doctor_name %></TD>
             <TD> <%= patient_name %></TD>
