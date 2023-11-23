@@ -99,8 +99,8 @@ public class LoginDAO {
 	    Connection con = null;
 	    try {
 	      Class.forName("com.mysql.jdbc.Driver");
-	      //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/wisealign_workflow1?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "wisealign_workflow", "Render@323#");
-	      con = DriverManager.getConnection("jdbc:mysql://localhost:3307/wisealign_workflow?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "root", "admin");
+	      con = DriverManager.getConnection("jdbc:mysql://localhost:3306/wisealign_workflow?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "wisealign_workflow", "Render@323#");//UAT
+	      //con = DriverManager.getConnection("jdbc:mysql://localhost:3307/wisealign_workflow?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "root", "admin");// Local
 	      System.out.println("Connection Successful");
 	    } catch (Exception e) {
 	      e.printStackTrace();
@@ -113,8 +113,8 @@ public class LoginDAO {
 		  Connection con = null;
 		    try {
 		      Class.forName("com.mysql.jdbc.Driver");
-		      //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/wisealign_workflow1?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "wisealign_workflow", "Render@323#");
-		      con = DriverManager.getConnection("jdbc:mysql://localhost:3307/watts_digiplan?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "root", "admin");
+		      con = DriverManager.getConnection("jdbc:mysql://localhost:3306/watts_digiplan?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "wisealign_digiplan", "Render123#");//UAT
+		      //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/watts_digiplan?characterEncoding=latin1&useConfigs=maxPerformance&autoReconnect=true&useSSL=false", "root", "admin");// Local
 		      System.out.println("Connection Successful");
 		    } catch (Exception e) {
 		      e.printStackTrace();

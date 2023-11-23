@@ -518,7 +518,7 @@ public class EditCaseDetails extends HttpServlet {
         		+ "bgst_no=?, category=?,upper_aligner=?,lower_aligner=?,others=?, Patient_Name=?,priority=?,remark=?,user_id=?,total_amount=?,payment_processing=?,"
         		+ "payment_mode=?,address1=?,address2=?,address3=?,address4=?,address5=?,location=?,location2=?,location3=?,location4=?,location5=?,city=?,city2=?,"
         		+ "city3=?,city4=?,city5=?,pincode1=?,pincode2=?,pincode3=?,pincode4=?,pincode5=?,default_address=?,default_starterkit=?,phone1=?,phone2=?,phone3=?,"
-        		+ "phone4=?,phone5=?,starter_case_stage='INISTRKIT',inistrkit_at=now(),starter_satus='N',patient_email=?,treating_dr_email=? where case_id='" + 
+        		+ "phone4=?,phone5=?,starter_case_stage='INISTRKIT',inistrkit_at=now(),starter_satus='Y',patient_email=?,treating_dr_email=? where case_id='" + 
           
           Case_Id + "' ";
         //focus no
@@ -804,7 +804,6 @@ public class EditCaseDetails extends HttpServlet {
 		        		+ "phone4=?,phone5=?,starter_case_stage='INISTRKIT',inistrkit_at=now(),starter_satus='Y',holdflag='N',case_stage=?,wfc_at=now()"
 		        		+ ",patient_email=?,treating_dr_email=? where case_id='" +Case_Id + "' ";
 		}
-        //focus
         pstmt11 = con.prepareStatement(query);
         pstmt11.setString(1, scan);
         pstmt11.setString(2, r_Doctor);
@@ -1480,7 +1479,8 @@ public class EditCaseDetails extends HttpServlet {
               out.println("location='Newcase1';");
               out.println("</script>");
             } 
-          } else if (p_graph.equals("Yes") && starter_kit.equals("Yes") && s_shown.equals("Yes") && case_stage.equals("STG") && type_request.equals("New Case")) {
+          } else if (p_graph.equals("Yes") && starter_kit.equals("Yes") && s_shown.equals("Yes") && 
+        		  case_stage.equals("STG") && type_request.equals("New Case")) {
 //            query = " update cc_crm set scan=?,registered_doctor=?,crm_name=?,clinic_name=?,p_graph=?,starter_kit=?,type_request=?,s_shown=?,ppf_fill=?,t_account=?,"
 //            		+ "corporate_account=?,kol=?,c_pkg=?,pkg_name=?,dispatch_crpt=?,dispatch_address=?, bill_address=?,Doctor_Name=?,delivery_note_no=?, bclinic=?,badd=?,"
 //            		+ "bgst_no=?, category=?,upper_aligner=?,lower_aligner=?,others=?, Patient_Name=?,priority=?,remark=?,user_id=?,total_amount=?,payment_processing=?,"

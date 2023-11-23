@@ -76,6 +76,10 @@ public class SearchPhotoData extends HttpServlet {
     	  System.out.println("Retainer else if");   
           response.sendRedirect("NewQueryPhotoGrid?caseId=" + CaseId + "&typeOfRequest=" + photoType);
       }
+      else if (photoType.equalsIgnoreCase("Repeat")) {
+    	  System.out.println("repeat else if");   
+          response.sendRedirect("NewQueryPhotoGrid?caseId=" + CaseId + "&typeOfRequest=" + photoType);
+      }
     } catch (ClassNotFoundException|java.sql.SQLException e) {
       e.printStackTrace();
     } 
